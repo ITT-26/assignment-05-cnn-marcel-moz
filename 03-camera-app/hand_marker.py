@@ -1,6 +1,7 @@
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
+import cv2
 
 
 class HandMarker:
@@ -20,6 +21,7 @@ class HandMarker:
         self.landmarker = HandLandmarker.create_from_options(options)
         
     def detect_hand_in_frame(self, frame):
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
         return self.landmarker.detect(mp_image)
     
